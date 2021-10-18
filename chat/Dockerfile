@@ -11,7 +11,7 @@ RUN yarn build
 RUN rm -rf .git
 
 ENV NODE_ENV=production
-ENV PORT=5000
+ENV PORT=5100
 
-EXPOSE 5000
+EXPOSE 5100
 CMD [ "node", "./dist/server.js" ]
