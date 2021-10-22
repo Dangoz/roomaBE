@@ -1,4 +1,5 @@
 import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { PrismaClient } from ".prisma/client";
 
@@ -8,8 +9,9 @@ const googleStrategy = new GoogleStrategy(
   {
     clientID: process.env.GOOGLE_AUTH_CLIENTID as string,
     clientSecret: process.env.GOOGLE_AUTH_CLIENTSECRET as string,
-    // callbackURL: "/api/auth/google/callback",
-    callbackURL: "https://api.dinemaster.net/api/auth/google/callback"
+    callbackURL: `${process.env.NODE_ENV === "production"
+      ? "https://api.rooma.ca"
+      : "http://localhost:8080"}/api/auth/google/callback`,
   },
   async function (
     _accessToken: any,
@@ -71,4 +73,6 @@ passport.deserializeUser(async function (userId: string, done) {
   }
 });
 
-export default passport.use(googleStrategy);
+passport.use(googleStrategy);
+// passport.use(localStrate);
+export default passport;
