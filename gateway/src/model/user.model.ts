@@ -11,4 +11,20 @@ export default class UserModel {
     })
     return user;
   }
+
+  async getUserById(id: string): Promise<User> {
+    const user = await prisma.user.findUnique({
+      where: { id }
+    })
+    return user;
+  }
+
+  async createUser(name: string, email: string, passwordHash?: string): Promise<User> {
+    const user = await prisma.user.create({
+      data: {
+        name, email, password: passwordHash
+      }
+    })
+    return user;
+  }
 }

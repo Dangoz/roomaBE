@@ -1,6 +1,6 @@
 import IController from "@/interfaces/controller.interface";
 import express, { Request, Response, NextFunction } from "express";
-import passport from "../config/passport.google";
+import passport from "passport";
 import clientUrl from "@/configs/clientUrl";
 
 class AuthenController implements IController {

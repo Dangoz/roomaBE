@@ -1,5 +1,5 @@
 import aws from "aws-sdk";
-import Bcrypt from "./bcrypt";
+import Bcrypt from "@/core/util/bcrypt";
 require("dotenv").config();
 
 export default class S3 {

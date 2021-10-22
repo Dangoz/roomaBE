@@ -20,18 +20,10 @@ class App {
 
   private initializeMiddlewares() {
     require("@/middlewares/express.middleware")(this._app);
+    require("./middlewares/passport.middleware")(this._app);
   }
 
   private initializeControllers() {
-
-    // redirect all http requests to https
-    // this._app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    //   if (req.headers['x-forwarded-proto'] === 'http') {
-    //     res.redirect(`https://${req.headers.host}${req.url}`);
-    //   } else {
-    //     next();
-    //   }
-    // });
 
     // pass in each router from controllers
     this.controllers.forEach(controller => {
