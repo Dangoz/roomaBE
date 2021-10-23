@@ -5,7 +5,7 @@ import { template } from "@/configs/rest";
 import { Error } from "aws-sdk/clients/servicecatalog";
 
 class UserController implements IController {
-  public path = "/user";
+  public path = "/v1/user";
   public router = express.Router();
 
   constructor() {

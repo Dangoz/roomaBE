@@ -26,14 +26,14 @@ export default class AuthenService {
     return user;
   }
 
-  // async createUser(user: any) {
-  //   const hash = await this.bcrypt.encrypt(user.password);
-  //   const newUser = await this.userdb.createUser(user, hash);
-  //   return newUser;
-  // }
-
-  async createGoogleUser(name: string, email: string) {
-    let user = await this.userdb.createUser(name, email);
+  async createUser(name: string, email: string, password?: string) {
+    let user;
+    if (password) {
+      const hash = await this.bcrypt.encrypt(password);
+      user = await this.userdb.createUser(name, email, hash);
+    } else {
+      user = await this.userdb.createUser(name, email);
+    }
     return user;
   }
 }

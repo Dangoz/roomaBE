@@ -8,29 +8,29 @@ export default class PassportConfig {
   private authenService: AuthenService = new AuthenService();
 
   constructor() {
-    passport.serializeUser(this.serialize())
+    passport.serializeUser(this.serialize());
     passport.deserializeUser(this.deserialize());
-    // passport.use(this.localLogin());
+    passport.use(this.localLogin());
     passport.use(this.googleLogin());
   }
 
   // return local strategy configurations
-  // private localLogin(): LocalStrategy {
-  //   return new LocalStrategy(
-  //     {
-  //       usernameField: "email",
-  //       passwordField: "password"
-  //     },
-  //     async (email, password, done) => {
-  //       const user = await this.authenService.getUserByEmailAndPassword(email, password);
-  //       return user
-  //         ? done(null, user)
-  //         : done(null, false, {
-  //             message: "Invalid credentials provided, email or password error",
-  //           });
-  //     }
-  //   );
-  // }
+  private localLogin(): LocalStrategy {
+    return new LocalStrategy(
+      {
+        usernameField: "email",
+        passwordField: "password"
+      },
+      async (email, password, done) => {
+        const user = await this.authenService.getUserByEmailAndPassword(email, password);
+        return user
+          ? done(null, user)
+          : done(null, false, {
+            message: "Invalid credentials provided, email or password error",
+          });
+      }
+    );
+  }
 
   // return google strategy configurations
   private googleLogin(): GoogleStrategy {
@@ -40,7 +40,7 @@ export default class PassportConfig {
         clientSecret: process.env.GOOGLE_AUTH_CLIENTSECRET as string,
         callbackURL: `${process.env.NODE_ENV === "production"
           ? "https://api.rooma.ca"
-          : "http://localhost:8080"}/api/auth/google/callback`,
+          : "http://localhost:8080"}/v1/auth/google/callback`,
       },
       async (_accessToken, _refreshToken, profile, done) => {
         console.log("passport.google - GoogleStrategy : profile.emails[0]");
@@ -53,7 +53,7 @@ export default class PassportConfig {
           return done(null, foundUser);
         }
 
-        const newUser = await this.authenService.createGoogleUser(profile.displayName, email);
+        const newUser = await this.authenService.createUser(profile.displayName, email);
 
         return done(null, newUser);
       }

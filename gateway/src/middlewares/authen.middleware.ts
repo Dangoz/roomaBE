@@ -1,10 +1,10 @@
 export const ensureAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
-    console.log("user authenticated @@@")
+    console.log("@authenticated")
     return next();
   }
-  console.log("not authenticated!");
-  res.status(299).json({ err: "not authenticated" });
+
+  res.status(299).send(undefined);
 };
 
 export const forwardAuthenticated = (req, res, next) => {

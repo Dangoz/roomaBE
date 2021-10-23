@@ -5,9 +5,7 @@ export default class UserModel {
 
   async getUserByEmail(email: string): Promise<User> {
     const user = await prisma.user.findUnique({
-      where: {
-        email
-      }
+      where: { email }
     })
     return user;
   }
