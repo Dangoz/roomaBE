@@ -2,7 +2,7 @@ import IController from "@/interfaces/controller.interface";
 import express from "express";
 import S3 from "../config/awsS3";
 import { template } from "@/configs/rest";
-import { Error } from "aws-sdk/clients/servicecatalog";
+import { ensureAuthenticated } from "@/middlewares/authen.middleware";
 
 class UserController implements IController {
   public path = "/v1/user";
@@ -13,8 +13,8 @@ class UserController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(`/s3url`, this.createS3Url);
-    this.router.get(`${this.path}`, this.test);
+    this.router.get(`/s3url`, ensureAuthenticated, this.createS3Url);
+    this.router.get(`${this.path}`, ensureAuthenticated, this.test);
   }
 
   private async test(req: express.Request, res: express.Response, next: express.NextFunction) {

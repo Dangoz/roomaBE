@@ -4,7 +4,7 @@ export const ensureAuthenticated = (req, res, next) => {
     return next();
   }
 
-  res.status(299).send(undefined);
+  res.status(299).send("🧙‍♂️ you shall not pass 🧙‍♂️");
 };
 
 export const forwardAuthenticated = (req, res, next) => {

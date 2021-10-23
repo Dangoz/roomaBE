@@ -2,7 +2,6 @@ import IController from "@/interfaces/controller.interface";
 import express, { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import clientUrl from "@/configs/clientUrl";
-import { ensureAuthenticated } from "@/middlewares/authen.middleware";
 import AuthenService from "../services/authen.service";
 
 class AuthenController implements IController {
@@ -15,7 +14,7 @@ class AuthenController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/authenticate`, ensureAuthenticated, this.authenticate);
+    this.router.get(`${this.path}/authenticate`, this.authenticate);
     this.router.post(`${this.path}/local`, this.localLogin);
     this.router.post(`${this.path}/local/register`, this.localRegister);
     this.router.get(`${this.path}/google/callback`, this.googleLoginRedirect);
