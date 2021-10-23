@@ -24,7 +24,6 @@ class AuthenController implements IController {
   }
 
   private authenticate = async (req: Request, res: Response) => {
-    console.log('auth user', JSON.stringify(req.user, null, 2));
     res.status(200).send(req.user);
   };
 
@@ -46,7 +45,7 @@ class AuthenController implements IController {
     if (await this.authenService.getUserByEmail(email)) {
       return res.status(299).json({ err: "Email Already Exists" });
     }
-    const user = await this.authenService.createUser(name, email, password);
+    await this.authenService.createUser(name, email, password);
     return res.status(200).json({ message: "user created" });
   }
 

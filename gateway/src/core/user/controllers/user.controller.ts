@@ -18,21 +18,13 @@ class UserController implements IController {
   }
 
   private async test(req: express.Request, res: express.Response, next: express.NextFunction) {
-    try {
-      const response = await template.get('/cat');
-      res.status(200).send(response.data);
-    } catch (err) {
-      console.log(err);
-    }
+    const response = await template.get('/cat');
+    res.status(200).json(response.data);
   }
 
   private async createS3Url(req: express.Request, res: express.Response) {
-    try {
-      const uploadUrl: string = await S3.generateUploadUrl();
-      res.json({ message: "this is a url for uploading to S3", uploadUrl });
-    } catch (err) {
-      console.error(err);
-    }
+    const uploadUrl: string = await S3.generateUploadUrl();
+    res.json({ message: "this is a url for uploading to S3", uploadUrl });
   }
 }
 
