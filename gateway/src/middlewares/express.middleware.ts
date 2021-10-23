@@ -28,6 +28,7 @@ module.exports = (app) => {
       resave: false,
       saveUninitialized: false,
       cookie: {
+        domain: '.rooma.ca',
         httpOnly: true,
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
