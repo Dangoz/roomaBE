@@ -12,9 +12,64 @@ generator client {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
-  name     String
-  password String?
-  pfp      String?
+  id             String          @id @default(uuid())
+  email          String          @unique
+  name           String
+  password       String?
+  pfp            String?
+  color          String?
+  points         Int             @default(0)
+  assignedPoints Int             @default(0)
+  roomId         String?
+  Room           Room?           @relation(fields: [roomId], references: [id])
+  events         Event[]
+  schedules      User_Schedule[]
+
+  @@map("user")
+}
+
+model Room {
+  id          String @id @default(uuid())
+  name        String
+  description String @default("")
+  users       User[]
+
+  @@map("room")
+}
+
+model Schedule {
+  id          String          @id @default(uuid())
+  title       String
+  description String
+  points      Int
+  beginDate   DateTime
+  days        Int[]
+  events      Event[]
+  users       User_Schedule[]
+
+  @@map("schedule")
+}
+
+model Event {
+  id          String     @id @default(uuid())
+  status      String
+  duration    DateTime[]
+  title       String
+  description String
+  userId      String
+  User        User       @relation(fields: [userId], references: [id])
+  scheduleId  String?
+  Schedule    Schedule?  @relation(fields: [scheduleId], references: [id])
+
+  @@map("event")
+}
+
+model User_Schedule {
+  id         String   @id @default(uuid())
+  userId     String
+  User       User     @relation(fields: [userId], references: [id])
+  scheduleId String
+  Schedule   Schedule @relation(fields: [scheduleId], references: [id])
+
+  @@map("user_schedule")
 }
