@@ -25,4 +25,14 @@ export default class UserModel {
     })
     return user;
   }
+
+  async updatePFP(id: string, pfp: string): Promise<User> {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        pfp
+      }
+    })
+    return user;
+  }
 }
