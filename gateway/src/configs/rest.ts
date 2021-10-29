@@ -1,7 +1,14 @@
 import axios from "axios";
 
-export const template = axios.create({
-  baseURL: process.env.NODE_ENV === "production" ? "http://template:3000" : "http://localhost:3000",
+export const schedule = axios.create({
+  baseURL: process.env.NODE_ENV === "production" ? "http://schedule:5200" : "http://localhost:3000",
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+export const room = axios.create({
+  baseURL: process.env.NODE_ENV === "production" ? "http://room:5100" : "http://localhost:3000",
   headers: {
     'Content-Type': 'application/json'
   }

@@ -5,6 +5,7 @@ import morgan from "morgan";
 import passport from "passport";
 import session from "express-session";
 import clientUrl from "@/configs/clientUrl";
+import Redis from "ioredis";
 
 module.exports = (app) => {
 
@@ -22,8 +23,13 @@ module.exports = (app) => {
 
   app.use(morgan("tiny"));
 
+  // Session Configuration
+  const redis = new Redis(process.env.REDIS_URL);
+  const RedisStore = require("connect-redis")(session);
+
   app.use(
     session({
+      store: new RedisStore({ client: redis }),
       secret: "secret",
       resave: false,
       saveUninitialized: false,

@@ -3,7 +3,7 @@ import IController from "@/interfaces/controller.interface";
 
 class App {
   private _app: express.Application;
-  private readonly _port: number | string = process.env.PORT || 5000;
+  private readonly _port: number | string = process.env.PORT || 5100;
 
   constructor(public controllers: IController[]) {
     this._app = express();
