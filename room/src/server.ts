@@ -4,10 +4,10 @@ moduleAlias.addAliases({ '@': __dirname, });
 
 require("dotenv").config();
 import App from "@/app";
-import ServiceController from "@/core/api/service.controller";
+import RoomController from "@/core/room.controller";
 
 const server = new App([
-  new ServiceController()
+  new RoomController()
 ]);
 
 server.start();

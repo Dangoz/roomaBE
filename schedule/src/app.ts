@@ -14,7 +14,7 @@ class App {
 
   public start() {
     this._app.listen(this._port, () => {
-      console.log(`template listening on the port ${this._port}`);
+      console.log(`schedule listening on the port ${this._port}`);
     });
   }
 

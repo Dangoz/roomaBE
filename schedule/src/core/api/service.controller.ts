@@ -10,11 +10,11 @@ class ServiceController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(`/cat`, this.test);
+    this.router.get(`/`, this.test);
   }
 
   private async test(req: express.Request, res: express.Response, next: express.NextFunction) {
-    res.status(200).json({ message: "Meow~!" });
+    res.status(200).json({ message: "Schedule responding..." });
   }
 }
 
