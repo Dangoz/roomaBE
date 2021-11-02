@@ -6,10 +6,14 @@ require("dotenv").config();
 import App from "@/app";
 import UserController from "@/core/user/controllers/user.controller";
 import AuthenController from "@/core/authentication/controllers/authen.controller";
+import ScheduleController from "@/core/schedule/schedule.controller";
+import RoomController from "./core/room/room.controller";
 
 const server = new App([
   new UserController(),
-  new AuthenController()
+  new AuthenController(),
+  new ScheduleController(),
+  new RoomController()
 ]);
 
 server.start();

@@ -1,12 +1,11 @@
-import UserModel from "@/model/user.model";
+import Userdb from "@/model/user.model";
 import Bcrypt from "@/core/util/bcrypt";
 
 export default class AuthenService {
-  private userdb: UserModel = new UserModel();
   private bcrypt: Bcrypt = new Bcrypt();
 
   async getUserByEmailAndPassword(email: string, password: string) {
-    let user = await this.userdb.getUserByEmail(email);
+    let user = await Userdb.getUserByEmail(email);
     if (user) {
       if (await this.bcrypt.validate(password, user.password)) {
         // user = await UserViewModel.build(user);
@@ -16,13 +15,13 @@ export default class AuthenService {
   }
 
   async getUserByEmail(email: string) {
-    let user = await this.userdb.getUserByEmail(email);
+    let user = await Userdb.getUserByEmail(email);
     // if (user) user = await UserViewModel.build(user);
     return user;
   }
 
   async getUserById(id: string) {
-    let user = await this.userdb.getUserById(id);
+    let user = await Userdb.getUserById(id);
     return user;
   }
 
@@ -30,9 +29,9 @@ export default class AuthenService {
     let user;
     if (password) {
       const hash = await this.bcrypt.encrypt(password);
-      user = await this.userdb.createUser(name, email, hash);
+      user = await Userdb.createUser(name, email, hash);
     } else {
-      user = await this.userdb.createUser(name, email);
+      user = await Userdb.createUser(name, email);
     }
     return user;
   }
