@@ -8,8 +8,13 @@ export default interface IUser {
 // extend Express.User for req.user types
 declare global {
   namespace Express {
-    interface User {
-      id: string;
+    interface User extends IDeserializable {
     }
   }
+}
+
+export interface IDeserializable {
+  id: string;
+  name: string;
+  roomId: string | null;
 }

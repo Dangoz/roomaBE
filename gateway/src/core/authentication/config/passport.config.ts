@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import AuthenService from "../services/authen.service";
+import { IDeserializable } from "@/interfaces/user.interface";
 
 // passport configurations
 export default class PassportConfig {
@@ -79,10 +80,10 @@ export default class PassportConfig {
       let foundUser = await this.authenService.getUserById(userId);
 
       if (foundUser) {
-        const deserializableUser = {
+        const deserializableUser: IDeserializable = {
           id: foundUser.id,
           name: foundUser.name,
-          pfp: foundUser.pfp,
+          roomId: foundUser.pfp
         };
         done(null, deserializableUser);
       } else {

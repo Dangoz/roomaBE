@@ -2,7 +2,6 @@ import { room } from "@/configs/rest";
 import express, { Request, Response, NextFunction } from "express";
 import IController from "@/interfaces/controller.interface";
 import { ensureAuthenticated } from "@/middlewares/authen.middleware";
-import Userdb from "@/model/user.model";
 
 class RoomController implements IController {
   public path = "/v1/room";
@@ -13,14 +12,15 @@ class RoomController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/invkey/:rid`, ensureAuthenticated, this.invKey);
+    this.router.get(`${this.path}/invcode`, ensureAuthenticated, this.invKey);
   }
 
   private invKey = async (req: Request, res: Response) => {
+    if (!req.user.roomId) res.status(400).send("user not in room");
 
     let result = null
     try {
-      const serviceRes = await room.get('/');
+      const serviceRes = await room.get(`/invcode/${req.user.roomId}`);
       if (serviceRes && serviceRes.data) result = serviceRes.data;
     } catch (error) {
       console.error("error: ", (error as Error).message);

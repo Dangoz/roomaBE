@@ -1,7 +1,6 @@
 import IController from "@/interfaces/controller.interface";
 import express from "express";
 import S3 from "../services/awsS3";
-import { schedule } from "@/configs/rest";
 import { ensureAuthenticated } from "@/middlewares/authen.middleware";
 import UserService from "../services/user.service";
 
@@ -16,18 +15,12 @@ class UserController implements IController {
 
   private initializeRoutes() {
     this.router.get(`/v1/s3url`, ensureAuthenticated, this.createS3Url);
-    this.router.get(`${this.path}`, ensureAuthenticated, this.test);
     this.router.patch(`${this.path}/pfp`, ensureAuthenticated, this.updatePFP);
   }
 
   private createS3Url = async (req: express.Request, res: express.Response) => {
     const uploadUrl: string = await S3.generateUploadUrl();
     res.json({ message: "this is a url for uploading to S3", uploadUrl });
-  }
-
-  private test = async (req: express.Request, res: express.Response) => {
-    const response = await schedule.get('/cat');
-    res.status(200).json(response.data);
   }
 
   private updatePFP = async (req: express.Request, res: express.Response) => {
