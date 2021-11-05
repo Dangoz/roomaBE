@@ -21,6 +21,8 @@ class RoomController implements IController {
   }
 
   private getRoom = async (req: Request, res: Response) => {
+    if (!req.user.roomId) return res.status(400).json({ message: "user not in room" });
+
     try {
       const serviceRes = await room.get(`/${req.user.roomId}`);
       res.status(200).json(serviceRes.data);
