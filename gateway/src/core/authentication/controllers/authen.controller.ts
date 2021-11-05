@@ -24,7 +24,7 @@ class AuthenController implements IController {
   }
 
   private authenticate = async (req: Request, res: Response) => {
-    if (!req.user) res.status(400).json();
+    if (!req.user) return res.status(400).json();
     const user = await UserViewModel.build(req.user);
     res.status(200).json(user);
   };
