@@ -4,7 +4,7 @@ moduleAlias.addAliases({ '@': __dirname, });
 
 require("dotenv").config();
 import App from "@/app";
-import RoomController from "@/core/room.controller";
+import RoomController from "@/core/controllers/room.controller";
 
 const server = new App([
   new RoomController()
