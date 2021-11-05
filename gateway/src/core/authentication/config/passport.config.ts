@@ -2,7 +2,6 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import AuthenService from "../services/authen.service";
-import { IDeserializable } from "@/interfaces/user.interface";
 
 // passport configurations
 export default class PassportConfig {
@@ -74,18 +73,13 @@ export default class PassportConfig {
   // return config function for passport.deserailize()
   private deserialize(): (userId: string, done) => Promise<void> {
     return async (userId: string, done): Promise<void> => {
-      console.log("deserializeUser : userId");
-      console.log(userId);
+      // console.log("deserializeUser : userId");
+      // console.log(userId);
 
       let foundUser = await this.authenService.getUserById(userId);
 
       if (foundUser) {
-        const deserializableUser: IDeserializable = {
-          id: foundUser.id,
-          name: foundUser.name,
-          roomId: foundUser.pfp
-        };
-        done(null, deserializableUser);
+        done(null, foundUser);
       } else {
         done({ message: "User not found by id." }, null);
       }

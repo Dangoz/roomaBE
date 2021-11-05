@@ -2,6 +2,7 @@ import IController from "@/interfaces/controller.interface";
 import { ensureAuthenticated } from "@/middlewares/authen.middleware";
 import express, { Request, Response, NextFunction } from "express";
 import { schedule } from "@/configs/rest";
+import { nextTick } from "process";
 
 class ScheduleController implements IController {
   public path = "/v1/schedule";
@@ -16,16 +17,13 @@ class ScheduleController implements IController {
   }
 
   private getSchedules = async (req: Request, res: Response) => {
-    let result = null
     try {
       const serviceRes = await schedule.get('/');
-      if (serviceRes && serviceRes.data) result = serviceRes.data;
+      res.status(200).json(serviceRes.data);
     } catch (error) {
       console.error("error: ", (error as Error).message);
+      res.status(500).json();
     }
-    result
-      ? res.status(200).json(result)
-      : res.status(500).send();
   }
 }
 

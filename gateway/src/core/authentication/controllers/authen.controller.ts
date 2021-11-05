@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import clientUrl from "@/configs/clientUrl";
 import AuthenService from "../services/authen.service";
+import UserViewModel from "@/viewmodel/user.viewmodel";
 
 class AuthenController implements IController {
   public path = "/v1/auth";
@@ -23,7 +24,9 @@ class AuthenController implements IController {
   }
 
   private authenticate = async (req: Request, res: Response) => {
-    res.status(200).send(req.user);
+    if (!req.user) res.status(400).json();
+    const user = await UserViewModel.build(req.user);
+    res.status(200).json(user);
   };
 
   private localLogin = async (req: Request, res: Response, next: NextFunction) => {

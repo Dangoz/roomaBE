@@ -25,13 +25,42 @@ export default {
     return user;
   },
 
-  updatePFP: async (id: string, pfp: string): Promise<User> => {
+  update: async (id: string, name?: string, pfp?: string, color?: string): Promise<User> => {
     const user = await prisma.user.update({
       where: { id },
       data: {
-        pfp
+        name, pfp, color
       }
     })
+    return user;
+  },
+
+  updatePoints: async (id: string, points: number, assignedPoints: number): Promise<User> => {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        points: { increment: points },
+        assignedPoints: { increment: assignedPoints }
+      }
+    })
+    return user;
+  },
+
+  resetPoints: async (id: string): Promise<User> => {
+    const user = await prisma.user.update({
+      where: { id },
+      data: { points: 0, assignedPoints: 0 }
+    })
+    return user;
+  },
+
+  updateRoomId: async (id: string, roomId: string | null): Promise<User> => {
+    const user = await prisma.user.update({
+      where: { id },
+      data: {
+        roomId
+      }
+    });
     return user;
   }
 }
