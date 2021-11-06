@@ -2,7 +2,6 @@ import IController from "@/interfaces/controller.interface";
 import { ensureAuthenticated } from "@/middlewares/authen.middleware";
 import express, { Request, Response, NextFunction } from "express";
 import { schedule } from "@/configs/rest";
-import { nextTick } from "process";
 
 class ScheduleController implements IController {
   public path = "/v1/schedule";
@@ -13,7 +12,7 @@ class ScheduleController implements IController {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/:rid`, ensureAuthenticated, this.getSchedules);
+    this.router.get(`${this.path}`, ensureAuthenticated, this.getSchedules);
   }
 
   private getSchedules = async (req: Request, res: Response) => {
