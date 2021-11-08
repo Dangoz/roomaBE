@@ -16,7 +16,7 @@ module.exports = (app) => {
   app.use(
     cors({
       origin: clientUrl,
-      methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+      methods: ["POST", "PUT", "PATCH", "GET", "OPTIONS", "HEAD"],
       credentials: true,
     })
   );
@@ -24,7 +24,11 @@ module.exports = (app) => {
   app.use(morgan("tiny"));
 
   // Session Configuration
-  const redis = new Redis(process.env.REDIS_URL);
+  // const redis = new Redis(process.env.REDIS_URL);
+  const redis = new Redis({
+    host: '127.0.0.1',
+    port: 6379
+  });
   const RedisStore = require("connect-redis")(session);
 
   app.use(
