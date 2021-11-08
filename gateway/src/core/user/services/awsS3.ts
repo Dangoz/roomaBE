@@ -4,7 +4,7 @@ require("dotenv").config();
 
 export default class S3 {
   private static region: string = "us-west-2";
-  private static bucketName: string = "rooma0";
+  private static bucketName: string = "dinemaster0";
   private static accessKeyId = process.env.S3_ACCESS;
   private static secretAccessKey = process.env.S3_SECRET;
   private static s3 = new aws.S3({
