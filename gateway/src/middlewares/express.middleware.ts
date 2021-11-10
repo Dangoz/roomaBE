@@ -16,7 +16,7 @@ module.exports = (app) => {
   app.use(
     cors({
       origin: clientUrl,
-      methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+      methods: ["POST", "PUT", "PATCH", "GET", "OPTIONS", "HEAD"],
       credentials: true,
     })
   );
@@ -34,7 +34,7 @@ module.exports = (app) => {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        domain: process.env.NODE_ENV === "production" ? ".rooma.ca" : "",
+        domain: (process.env.NODE_ENV === "production" && process.env.DEV !== "true") ? ".rooma.ca" : "",
         httpOnly: true,
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
