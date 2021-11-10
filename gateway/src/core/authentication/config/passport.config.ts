@@ -38,7 +38,7 @@ export default class PassportConfig {
       {
         clientID: process.env.GOOGLE_AUTH_CLIENTID as string,
         clientSecret: process.env.GOOGLE_AUTH_CLIENTSECRET as string,
-        callbackURL: `${process.env.NODE_ENV === "production"
+        callbackURL: `${(process.env.NODE_ENV === "production" && process.env.DEV !== "true")
           ? "https://api.rooma.ca"
           : "http://localhost:8080"}/v1/auth/google/callback`,
       },

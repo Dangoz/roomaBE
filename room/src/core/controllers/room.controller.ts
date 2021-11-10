@@ -48,6 +48,8 @@ class RoomController implements IController {
 
   private createRoom = async (req: Request, res: Response) => {
     const { name, description } = req.body;
+    if (!name) return res.status(400).json({ message: "name is required for creating room" });
+
     const room = await this.roomService.createRoom(name, description);
     room
       ? res.status(200).json(room)

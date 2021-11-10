@@ -13,7 +13,7 @@ class RoomService {
     }
   }
 
-  async createRoom(name: string, description: string): Promise<Room> {
+  async createRoom(name: string, description?: string): Promise<Room> {
     try {
       const room = await Roomdb.createRoom(name, description);
       return room;

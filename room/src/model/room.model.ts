@@ -9,7 +9,7 @@ export default {
     return room;
   },
 
-  createRoom: async (name: string, description: string): Promise<Room> => {
+  createRoom: async (name: string, description?: string): Promise<Room> => {
     const room = await prisma.room.create({
       data: {
         name, description

@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    restart: always
+    container_name: gateway
+    ports: 
+      - 8080:8080
+    networks:
+      - new_bridge
+
+  room:
+    build:
+      context: ./room
+      dockerfile: Dockerfile
+    restart: always
+    container_name: room
+    ports: 
+      - 5100:5100
+    networks:
+      - new_bridge
+
+  schedule:
+    build:
+      context: ./schedule
+      dockerfile: Dockerfile
+    restart: always
+    container_name: schedule
+    ports:
+      - 5200:5200
+    networks:
+      - new_bridge
+
+networks:
+  new_bridge: {}
+    

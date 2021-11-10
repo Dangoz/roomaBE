@@ -37,7 +37,7 @@ class AuthenController implements IController {
       }
       req.logIn(user, function (err) {
         if (err) { return next(err); }
-        return res.status(200).json({ message: 'authenticated' });
+        return res.status(200).json({ message: 'authenticated!!!' });
       });
     })(req, res, next);
   }
