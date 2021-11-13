@@ -62,5 +62,14 @@ export default {
       }
     });
     return user;
+  },
+
+  getUsersByRoomId: async (roomId: string): Promise<User[]> => {
+    const users = await prisma.user.findMany({
+      where: {
+        roomId
+      }
+    });
+    return users;
   }
 }

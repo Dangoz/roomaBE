@@ -24,7 +24,7 @@ class AuthenController implements IController {
   }
 
   private authenticate = async (req: Request, res: Response) => {
-    if (!req.user) return res.status(299).json();
+    if (!req.user) return res.status(400).json();
     const user = await UserViewModel.build(req.user);
     res.status(200).json(user);
   };
@@ -33,11 +33,11 @@ class AuthenController implements IController {
     passport.authenticate('local', (err, user, info) => {
       if (err) { return next(err); }
       if (!user) {
-        return res.status(299).json({ err: "Invalid Credentials" });
+        return res.status(400).json({ err: "Invalid Credentials" });
       }
       req.logIn(user, function (err) {
         if (err) { return next(err); }
-        return res.status(200).json({ message: 'authenticated!!!' });
+        return res.status(200).json({ message: "authenticated" });
       });
     })(req, res, next);
   }
@@ -45,7 +45,7 @@ class AuthenController implements IController {
   private localRegister = async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
     if (await this.authenService.getUserByEmail(email)) {
-      return res.status(299).json({ err: "Email Already Exists" });
+      return res.status(400).json({ err: "Email Already Exists" });
     }
     await this.authenService.createUser(name, email, password);
     return res.status(200).json({ message: "user created" });
@@ -66,7 +66,7 @@ class AuthenController implements IController {
 
   private logout = async (req: Request, res: Response) => {
     req.logout();
-    res.sendStatus(200);
+    res.status(200).json({ message: "logged out" });
   };
 }
 

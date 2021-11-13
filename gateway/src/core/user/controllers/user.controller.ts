@@ -2,13 +2,12 @@ import IController from "@/interfaces/controller.interface";
 import express, { Request, Response, NextFunction } from "express";
 import S3 from "../services/awsS3";
 import { ensureAuthenticated } from "@/middlewares/authen.middleware";
-import UserService from "../services/user.service";
 import Userdb from "@/model/user.model";
+import UserViewModel from "@/viewmodel/user.viewmodel";
 
 class UserController implements IController {
   public path = "/v1/user";
   public router = express.Router();
-  private userService: UserService = new UserService();
 
   constructor() {
     this.initializeRoutes();
@@ -16,6 +15,7 @@ class UserController implements IController {
 
   private initializeRoutes() {
     this.router.get(`/v1/s3url`, ensureAuthenticated, this.createS3Url);
+    this.router.get(`${this.path}/roommates`, ensureAuthenticated, this.getRoommates);
     this.router.patch(`${this.path}/update`, ensureAuthenticated, this.update);
     this.router.patch(`${this.path}/points/update`, ensureAuthenticated, this.updatePoints);
     this.router.patch(`${this.path}/points/reset`, ensureAuthenticated, this.resetPoints);
@@ -25,6 +25,18 @@ class UserController implements IController {
     try {
       const uploadUrl: string = await S3.generateUploadUrl();
       res.status(200).json({ message: "this is a url for uploading to S3", uploadUrl });
+    } catch (error) {
+      console.error((error as Error).message);
+      res.status(500).json({ message: "server error" });
+    }
+  }
+
+  private getRoommates = async (req: Request, res: Response) => {
+    if (!req.user.roomId) return res.status(400).json({ message: "user not in room" });
+    try {
+      const users = await Userdb.getUsersByRoomId(req.user.roomId);
+      const roommates = await Promise.all(users.map(u => UserViewModel.build(u)));
+      res.status(200).json({ message: "roommates retrieved", roommates });
     } catch (error) {
       console.error((error as Error).message);
       res.status(500).json({ message: "server error" });
