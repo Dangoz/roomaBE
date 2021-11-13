@@ -4,7 +4,7 @@ import { IRoomCache, IInvitaiton, ICodeIndex } from "@/interfaces/roomCache.inte
 import crypto from "crypto";
 
 // expiration time for inv code in number of days
-const expireLimit = 2;
+const expireLimit = 1;
 
 export default {
   generateInvcode: async (roomId: string): Promise<string> => {
@@ -22,9 +22,9 @@ export default {
         invCode = code;
 
         // check for / delete existing invcode index
-        if (existingCache && existingCache.invitiation) await redis.del(existingCache.invitiation.code);
+        if (existingCache?.invitiation) await redis.del(existingCache.invitiation.code);
         // invcode indexing with code as key, roomId/expire as value
-        redis.set(code, JSON.stringify(<ICodeIndex>{ roomId, expiration }));
+        redis.set(code, JSON.stringify(<ICodeIndex>{ roomId, expiration }), "EX", expireLimit * 60 * 60 * 24);
       } else {
         invCode = existingCache.invitiation.code;
       }
