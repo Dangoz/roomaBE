@@ -54,8 +54,8 @@ model Task {
   id            String      @id @default(uuid())
   title         String
   points        Int
-  dayjs         Int[]
-  createdAt     DateTime
+  days          Int[]
+  startAt       DateTime
   roomId        String
   Room          Room        @relation(fields: [roomId], references: [id])
   assignedUsers User_Task[]
