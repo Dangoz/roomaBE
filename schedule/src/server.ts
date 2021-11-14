@@ -4,10 +4,12 @@ moduleAlias.addAliases({ '@': __dirname, });
 
 require("dotenv").config();
 import App from "@/app";
-import ServiceController from "@/core/api/service.controller";
+import EventController from "./core/event/event.controller";
+import TaskController from "./core/task/task.controller";
 
 const server = new App([
-  new ServiceController()
+  new EventController(),
+  new TaskController()
 ]);
 
 server.start();

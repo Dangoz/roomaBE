@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  title       String
+  description String   @default("")
+  startAt     DateTime
+  endAt       DateTime
+  roomId      String
+  // Room        Room     @relation(fields: [roomId], references: [id])
+
+  @@map("event")
+}
+
+model Task {
+  id            String      @id @default(uuid())
+  title         String
+  points        Int
+  dayjs         Int[]
+  createdAt     DateTime
+  roomId        String
+  // Room          Room        @relation(fields: [roomId], references: [id])
+  assignedUsers User_Task[]
+  records       Json[]
+
+  @@map("task")
+}
+
+model User_Task {
+  id     String @id @default(uuid())
+  userId String
+  // User   User   @relation(fields: [userId], references: [id])
+  taskId String
+  Task   Task   @relation(fields: [taskId], references: [id])
+
+  @@map("user_task")
+}
