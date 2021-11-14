@@ -1,4 +1,6 @@
-export const ensureAuthenticated = (req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+export const ensureAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) {
     console.log("@authenticated")
     return next();
@@ -7,7 +9,7 @@ export const ensureAuthenticated = (req, res, next) => {
   res.status(299).send("🧙‍♂️ you shall not pass 🧙‍♂️");
 };
 
-export const forwardAuthenticated = (req, res, next) => {
+export const forwardAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (!req.isAuthenticated()) {
     return next();
   }
