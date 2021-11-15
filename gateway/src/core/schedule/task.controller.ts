@@ -15,6 +15,7 @@ class TaskController implements IController {
   private initializeRoutes() {
     this.router.get(`${this.path}/list`, ensureAuthenticated, checkRoomId, this.getTasks);
     this.router.post(`${this.path}/create`, ensureAuthenticated, checkRoomId, this.createTask);
+    this.router.post(`${this.path}/complete`, ensureAuthenticated, checkRoomId, this.completeTask);
   }
 
   private getTasks = async (req: Request, res: Response) => {
@@ -32,12 +33,23 @@ class TaskController implements IController {
 
   private createTask = async (req: Request, res: Response) => {
     try {
-      const taskRes = await schedule.post('/task/create', {
+      const taskTemplateRes = await schedule.post('/task/create', {
         ...req.body,
         roomId: req.user.roomId
       });
-      const task = taskRes.data.task;
-      res.status(200).json({ message: "task created", task });
+      const taskTemplate = taskTemplateRes.data.task;
+      res.status(200).json({ message: "task (template) created", taskTemplate });
+    } catch (error) {
+      console.error((error as Error).message);
+      res.status(500).json({ message: "server error" });
+    }
+  }
+
+  private completeTask = async (req: Request, res: Response) => {
+    try {
+      const taskTemplateRes = await schedule.post('/task/complete', req.body);
+      const taskTemplate = await taskTemplateRes.data.task;
+      res.status(200).json({ message: "task completed", taskTemplate });
     } catch (error) {
       console.error((error as Error).message);
       res.status(500).json({ message: "server error" });
