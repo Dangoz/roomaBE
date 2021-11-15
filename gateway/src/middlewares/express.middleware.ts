@@ -16,7 +16,7 @@ module.exports = (app) => {
   app.use(
     cors({
       origin: clientUrl,
-      methods: ["POST", "PUT", "PATCH", "GET", "OPTIONS", "HEAD"],
+      methods: ["POST", "PUT", "PATCH", "DELETE", "GET", "OPTIONS", "HEAD"],
       credentials: true,
     })
   );
