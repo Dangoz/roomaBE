@@ -15,7 +15,8 @@ class EventController implements IController {
   private initializeRoutes() {
     this.router.get(`${this.path}/list`, this.getEvents);
     this.router.post(`${this.path}/create`, this.createEvent);
-    this.router.patch(`${this.path}/update`, this.updateEvent)
+    this.router.patch(`${this.path}/update`, this.updateEvent);
+    this.router.delete(`${this.path}/delete/:eid`, this.deleteEvent);
   }
 
   private getEvents = async (req: Request, res: Response) => {
@@ -49,6 +50,15 @@ class EventController implements IController {
       : res.status(500).json({ message: "server error" });
   }
 
+  private deleteEvent = async (req: Request, res: Response) => {
+    const { eid } = req.params;
+    if (!eid) return res.status(400).json({ message: "event doesn't exist" });
+
+    const event = await this.eventService.deleteEvent(eid);
+    event
+      ? res.status(200).json({ event })
+      : res.status(500).json({ message: "server error" });
+  }
 }
 
 export default EventController;

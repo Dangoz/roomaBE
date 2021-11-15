@@ -4,6 +4,13 @@ import { ICreateEvent, IUpdateEvent } from "@/interfaces/event.interface";
 
 export default {
 
+  getEventById: async (id: string): Promise<Event> => {
+    const event = await prisma.event.findUnique({
+      where: { id }
+    });
+    return event;
+  },
+
   getEvents: async (roomId: string, startAt?: string, endAt?: string): Promise<Event[]> => {
     const events = await prisma.event.findMany({
       where: {
@@ -34,6 +41,13 @@ export default {
       data: {
         title, description, startAt, endAt
       }
+    })
+    return event;
+  },
+
+  deleteEvent: async (id: string): Promise<Event> => {
+    const event = await prisma.event.delete({
+      where: { id }
     })
     return event;
   }

@@ -34,6 +34,16 @@ class EventService {
       return null;
     }
   }
+
+  async deleteEvent(id: string): Promise<Event> {
+    try {
+      const event = await Eventdb.deleteEvent(id);
+      return event;
+    } catch (error) {
+      console.error((error as Error).message);
+      return null;
+    }
+  }
 }
 
 export default EventService
