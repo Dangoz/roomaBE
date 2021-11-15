@@ -20,7 +20,7 @@ class EventController implements IController {
 
   private getEvents = async (req: Request, res: Response) => {
     const { roomId, startAt, endAt } = req.query;
-    const events = await this.eventService.getEvents(roomId.toString(), startAt?.toString(), endAt?.toString());
+    const events = await this.eventService.getEvents(roomId as string, startAt as string, endAt as string);
     events
       ? res.status(200).json({ events })
       : res.status(500).json({ message: "server error" });

@@ -5,6 +5,7 @@ import { ICreateEvent, IUpdateEvent } from "@/interfaces/event.interface";
 class EventService {
 
   async getEvents(roomId: string, startAt?: string, endAt?: string): Promise<Event[]> {
+    console.log("RANGE", startAt, endAt);
     try {
       const events = await Eventdb.getEvents(roomId, startAt, endAt);
       return events;

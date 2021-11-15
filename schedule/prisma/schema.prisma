@@ -26,14 +26,26 @@ model Task {
   id            String      @id @default(uuid())
   title         String
   points        Int
-  dayjs         Int[]
-  createdAt     DateTime
+  days          Int[]
+  startAt       DateTime
   roomId        String
   // Room          Room        @relation(fields: [roomId], references: [id])
   assignedUsers User_Task[]
-  records       Json[]
+  records       Record[]
 
   @@map("task")
+}
+
+model Record {
+  id     String   @id @default(uuid())
+  taskId String
+  Task   Task     @relation(fields: [taskId], references: [id])
+  userId String
+  // User   User     @relation(fields: [userId], references: [id])
+  date   DateTime
+
+  @@unique([taskId, userId, date])
+  @@map("record")
 }
 
 model User_Task {
