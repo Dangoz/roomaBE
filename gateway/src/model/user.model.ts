@@ -1,5 +1,6 @@
 import prisma from "./prisma.client";
 import { User } from "@prisma/client";
+import { IUserUpdate } from "@/interfaces/user.interface";
 
 export default {
   getUserByEmail: async (email: string): Promise<User> => {
@@ -25,11 +26,13 @@ export default {
     return user;
   },
 
-  update: async (id: string, name?: string, pfp?: string, color?: string): Promise<User> => {
+  update: async (id: string, data: IUserUpdate): Promise<User> => {
+    const { name, age, phone, pronouns, preference, interests, pfp, color } = data;
     const user = await prisma.user.update({
       where: { id },
       data: {
-        name, pfp, color
+        name, age, phone, pronouns, preference,
+        interests, pfp, color
       }
     })
     return user;

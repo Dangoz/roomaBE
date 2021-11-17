@@ -44,9 +44,8 @@ class UserController implements IController {
   }
 
   private update = async (req: Request, res: Response) => {
-    const { name, pfp, color } = req.body;
     try {
-      const user = await Userdb.update(req.user.id, name, pfp, color);
+      const user = await Userdb.update(req.user.id, req.body);
       res.status(200).json({ message: `${user.name} updated` });
     } catch (error) {
       console.error((error as Error).message);

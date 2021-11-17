@@ -19,9 +19,23 @@ declare global {
   }
 }
 
-// export interface IDeserializable {
-//   id: string;
-//   name: string;
-//   pfp: string;
-//   roomId: string | null;
-// }
+// structure for updating user (profile)
+export interface IUserUpdate {
+  name?: string;
+  age?: string;
+  phone?: string;
+  pronouns?: string;
+  preference?: string[];
+  interests?: string;
+  pfp?: string;
+  color?: string;
+}
+
+// structure for user profile data, on top of that of IUser
+export interface IUserProfile extends IUser {
+  age: string | null;
+  phone: string | null;
+  pronouns: string | null;
+  preference: string[];
+  interests: string | null;
+}

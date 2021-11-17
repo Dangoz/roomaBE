@@ -1,4 +1,5 @@
 import IController from "@/interfaces/controller.interface";
+import { IUserProfile } from "@/interfaces/user.interface";
 import express, { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import clientUrl from "@/configs/clientUrl";
@@ -25,7 +26,9 @@ class AuthenController implements IController {
 
   private authenticate = async (req: Request, res: Response) => {
     if (!req.user) return res.status(299).json();
-    const user = await UserViewModel.build(req.user);
+    const userViewModel = await UserViewModel.build(req.user);
+    const { age, phone, pronouns, preference, interests } = req.user;
+    const user: IUserProfile = { ...userViewModel, age, phone, pronouns, preference, interests };
     res.status(200).json(user);
   };
 
