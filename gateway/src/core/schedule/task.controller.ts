@@ -16,6 +16,7 @@ class TaskController implements IController {
     this.router.get(`${this.path}/list`, ensureAuthenticated, checkRoomId, this.getTasks);
     this.router.post(`${this.path}/create`, ensureAuthenticated, checkRoomId, this.createTask);
     this.router.post(`${this.path}/complete`, ensureAuthenticated, checkRoomId, this.completeTask);
+    this.router.delete(`${this.path}/delete/:tid`, ensureAuthenticated, checkRoomId, this.deleteTask);
   }
 
   private getTasks = async (req: Request, res: Response) => {
@@ -50,6 +51,19 @@ class TaskController implements IController {
       const taskTemplateRes = await schedule.post('/task/complete', req.body);
       const taskTemplate = await taskTemplateRes.data.task;
       res.status(200).json({ message: "task completed", taskTemplate });
+    } catch (error) {
+      console.error((error as Error).message);
+      res.status(500).json({ message: "server error" });
+    }
+  }
+
+  private deleteTask = async (req: Request, res: Response) => {
+    try {
+      const taskTemplateRes = await schedule.delete(`/task/delete/${req.params.tid}`, {
+        params: { roomId: req.user.roomId }
+      });
+      const taskTemplate = taskTemplateRes.data.task;
+      res.status(200).json({ message: "task deleted", taskTemplate });
     } catch (error) {
       console.error((error as Error).message);
       res.status(500).json({ message: "server error" });
