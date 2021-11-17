@@ -65,5 +65,24 @@ export default {
       }
     })
     return task;
+  },
+
+  deleteTaskById: async (id: string): Promise<Task> => {
+
+    const deletedRecord = prisma.record.deleteMany({
+      where: { taskId: id }
+    });
+
+    const deletedUserTask = prisma.user_Task.deleteMany({
+      where: { taskId: id }
+    });
+
+    const deletedTask = prisma.task.delete({
+      where: { id }
+    });
+
+    // delete Records, UserTasks, task in order within one transaction
+    const transaction = await prisma.$transaction([deletedRecord, deletedUserTask, deletedTask]);
+    return transaction[2];
   }
 }

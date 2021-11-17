@@ -51,6 +51,21 @@ class TaskService {
       return null;
     }
   }
+
+  async deleteTask(id: string, roomId: string): Promise<Task> {
+    try {
+
+      // check task by Id, validate room
+      const task = await Taskdb.getTaskById(id);
+      if (task.roomId !== roomId) throw new Error("invalid room. task deletion denied.");
+
+      const deletedTask = await Taskdb.deleteTaskById(id);
+      return deletedTask;
+    } catch (error) {
+      console.error((error as Error).message);
+      return null;
+    }
+  }
 }
 
 export default TaskService;

@@ -16,6 +16,7 @@ class TaskController implements IController {
     this.router.get(`${this.path}/list`, this.getTasks);
     this.router.post(`${this.path}/create`, this.createTask);
     this.router.post(`${this.path}/complete`, this.completeTask);
+    this.router.delete(`${this.path}/delete/:tid`, this.deleteTask);
   }
 
   private getTasks = async (req: Request, res: Response) => {
@@ -48,7 +49,16 @@ class TaskController implements IController {
     taskTemplate
       ? res.status(200).json({ taskTemplate })
       : res.status(500).json({ message: "server " })
+  }
 
+  private deleteTask = async (req: Request, res: Response) => {
+    const { tid } = req.params;
+    if (!tid) return res.status(400).json({ message: "task doesn't exist" });
+
+    const taskTemplate = await this.taskService.deleteTask(tid, req.query.roomId as string);
+    taskTemplate
+      ? res.status(200).json({ taskTemplate })
+      : res.status(500).json({ message: "server " })
   }
 }
 
