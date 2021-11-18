@@ -6,10 +6,6 @@ import { parseTask } from "./taskGenerator";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-dayjs.extend(utc)
-dayjs.extend(timezone)
-
-dayjs.tz.setDefault("American/Vancouver")
 
 class TaskService {
   async createTask(data: ICreateTask): Promise<Task> {
