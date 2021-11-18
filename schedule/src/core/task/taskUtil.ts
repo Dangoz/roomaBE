@@ -1,8 +1,8 @@
 
-const week = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+const week = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 // convert an array of weekday string representation into index 0 ~ 6,
-// with 0 for monday to 6 for sunday.
+// with 0 for Sunday to 6 for Saturday.
 export const convertDays = (days: string[]): number[] => {
   const indexes = days
     .filter((d, pos) => days.indexOf(d) === pos) // remove duplicate
