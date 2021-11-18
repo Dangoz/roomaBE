@@ -4,6 +4,7 @@ import S3 from "../services/awsS3";
 import { ensureAuthenticated } from "@/middlewares/authen.middleware";
 import Userdb from "@/model/user.model";
 import UserViewModel from "@/viewmodel/user.viewmodel";
+import { IUserProfile } from "@/interfaces/user.interface";
 
 class UserController implements IController {
   public path = "/v1/user";
@@ -35,7 +36,11 @@ class UserController implements IController {
     if (!req.user.roomId) return res.status(400).json({ message: "user not in room" });
     try {
       const users = await Userdb.getUsersByRoomId(req.user.roomId);
-      const roommates = await Promise.all(users.map(u => UserViewModel.build(u)));
+      const roommates = await Promise.all(users.map(async u => {
+        const { age, phone, pronouns, preference, interests } = u;
+        const user: IUserProfile = { ...(await UserViewModel.build(u)), age, phone, pronouns, preference, interests };
+        return user;
+      }));
       res.status(200).json({ message: "roommates retrieved", roommates });
     } catch (error) {
       console.error((error as Error).message);
