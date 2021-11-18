@@ -2,9 +2,6 @@ import dayjs, { Dayjs } from "dayjs";
 import { Task, Record, User_Task } from "@prisma/client";
 import Taskdb from "@/model/task.model";
 
-dayjs.extend(require('dayjs/plugin/utc'));
-dayjs.extend(require('dayjs/plugin/timezone'));
-
 // default number of days for getting ITask(s)
 const defaultRange: number = 30;
 
@@ -27,10 +24,8 @@ export const parseTask = async (task: Task & { records: Record[]; assignedUsers:
   const start = startAt.isBefore(dayjs(task.startAt), 'day') ? dayjs(task.startAt) : startAt;
   const end = endAt.isAfter(start, 'day') ? endAt : start.add(1, 'day');
 
-  dayjs.tz.setDefault("America/Vancouver");
-
   // get all days from task.startAt to end
-  let count: Dayjs = dayjs.tz(task.startAt);
+  let count: Dayjs = dayjs(task.startAt);
   let days: Dayjs[] = [];
   while (!count.isAfter(end, 'day')) {
     days.push(count);

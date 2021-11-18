@@ -4,8 +4,6 @@ import { Task, Prisma } from "@prisma/client";
 import { convertDays } from "./taskUtil";
 import { parseTask } from "./taskGenerator";
 import dayjs, { Dayjs } from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 
 class TaskService {
   async createTask(data: ICreateTask): Promise<Task> {
