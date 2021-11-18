@@ -18,6 +18,7 @@ model User {
   age            String?
   phone          String?
   pronouns       String?
+  occupation     String?
   preference     String[]
   interests      String?
   pfp            String?

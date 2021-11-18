@@ -25,6 +25,7 @@ export interface IUserUpdate {
   age?: string;
   phone?: string;
   pronouns?: string;
+  occupation?: string;
   preference?: string[];
   interests?: string;
   pfp?: string;
@@ -36,6 +37,7 @@ export interface IUserProfile extends IUser {
   age: string | null;
   phone: string | null;
   pronouns: string | null;
+  occupation: string;
   preference: string[];
   interests: string | null;
 }
