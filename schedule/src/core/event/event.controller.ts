@@ -28,8 +28,8 @@ class EventController implements IController {
   }
 
   private createEvent = async (req: Request, res: Response) => {
-    const { roomId, startAt, endAt, title } = req.body;
-    if (!roomId || !startAt || !endAt || !title) {
+    const { roomId, startAt, endAt, title, color } = req.body;
+    if (!roomId || !startAt || !endAt || !title || !color) {
       return res.status(400).json({ message: "invalid body" });
     }
     if (+dayjs(startAt) > +dayjs(endAt)) {

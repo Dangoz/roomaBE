@@ -4,6 +4,7 @@ export interface ICreateEvent {
   startAt: string;
   endAt: string;
   roomId: string;
+  color: string;
 }
 
 export interface IUpdateEvent {

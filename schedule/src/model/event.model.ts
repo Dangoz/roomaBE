@@ -25,10 +25,10 @@ export default {
   },
 
   createEvent: async (data: ICreateEvent): Promise<Event> => {
-    const { title, description, startAt, endAt, roomId } = data;
+    const { title, description, startAt, endAt, roomId, color } = data;
     const newEvent = await prisma.event.create({
       data: {
-        title, description, startAt, endAt, roomId
+        title, description, startAt, endAt, roomId, color
       }
     });
     return newEvent;
