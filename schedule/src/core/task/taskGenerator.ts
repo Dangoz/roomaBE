@@ -1,6 +1,7 @@
 import dayjs, { Dayjs } from "dayjs";
 import { Task, Record, User_Task } from "@prisma/client";
 import Taskdb from "@/model/task.model";
+import { week } from "./taskUtil";
 
 // default number of days for getting ITask(s)
 const defaultRange: number = 30;
@@ -13,6 +14,7 @@ interface ITask {
   points: number;
   status: status;
   date: Date;
+  weekday: string;
   userId: string;
   roomId: string;
 }
@@ -44,9 +46,10 @@ export const parseTask = async (task: Task & { records: Record[]; assignedUsers:
 
       // find record, apply status & userId according to record. build ITask
       const record = task.records.find(r => dayjs(r.date).isSame(day, 'day'));
+      const weekday = week[day.day()];
       const itask: ITask = record
-        ? { id, title, points, roomId, status: "complete", date: day.toDate(), userId: record.userId }
-        : { id, title, points, roomId, status: "incomplete", date: day.toDate(), userId: "unassigned" };
+        ? { id, title, points, roomId, status: "complete", date: day.toDate(), weekday, userId: record.userId }
+        : { id, title, points, roomId, status: "incomplete", date: day.toDate(), weekday, userId: "unassigned" };
       return itask;
     });
 

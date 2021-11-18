@@ -1,5 +1,5 @@
 
-const week = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+export const week = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 // convert an array of weekday string representation into index 0 ~ 6,
 // with 0 for Sunday to 6 for Saturday.
