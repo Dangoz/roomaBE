@@ -37,7 +37,8 @@ class EventController implements IController {
     try {
       const eventRes = await schedule.post('/event/create', {
         ...req.body,
-        roomId: req.user.roomId
+        roomId: req.user.roomId,
+        color: req.user.color
       });
       const event = eventRes.data.event;
       res.status(200).json({ message: "event created", event });

@@ -21,7 +21,7 @@ model User {
   preference     String[]
   interests      String?
   pfp            String?
-  color          String?
+  color          String      @default("white")
   password       String?
   points         Int         @default(0)
   assignedPoints Int         @default(0)
@@ -48,6 +48,7 @@ model Event {
   id          String   @id @default(uuid())
   title       String
   description String   @default("")
+  color       String
   startAt     DateTime
   endAt       DateTime
   roomId      String
