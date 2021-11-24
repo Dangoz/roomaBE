@@ -51,9 +51,9 @@ export default {
     return task;
   },
 
-  updateTaskRecord: async (data: ICompleteTask): Promise<Task> => {
+  updateTaskRecord: async (data: ICompleteTask, points: number): Promise<Task> => {
     const { id, userId, date } = data;
-    const task = await prisma.task.update({
+    const task = prisma.task.update({
       where: { id },
       data: {
         records: {
@@ -63,8 +63,17 @@ export default {
           }
         }
       }
-    })
-    return task;
+    });
+
+    const user = prisma.user.update({
+      where: { id: userId },
+      data: {
+        points: { increment: points }
+      }
+    });
+
+    const transcation = await prisma.$transaction([task, user]);
+    return transcation[0];
   },
 
   deleteTaskById: async (id: string): Promise<Task> => {

@@ -60,7 +60,7 @@ class TaskService {
       if (!itask) throw new Error("invalid date. already completed or doesn't exist");
       if (itask.userId !== data.userId) throw new Error("incorrect assigned user for the task");
 
-      const updatedTask = await Taskdb.updateTaskRecord(data);
+      const updatedTask = await Taskdb.updateTaskRecord(data, task.points);
       return updatedTask;
 
     } catch (error) {
