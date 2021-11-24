@@ -14,6 +14,7 @@ class TaskController implements IController {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/list`, ensureAuthenticated, checkRoomId, this.getTasks);
+    this.router.get(`${this.path}/schedule`, ensureAuthenticated, checkRoomId, this.getSchedule);
     this.router.post(`${this.path}/create`, ensureAuthenticated, checkRoomId, this.createTask);
     this.router.post(`${this.path}/complete`, ensureAuthenticated, checkRoomId, this.completeTask);
     this.router.delete(`${this.path}/delete/:tid`, ensureAuthenticated, checkRoomId, this.deleteTask);
@@ -26,6 +27,19 @@ class TaskController implements IController {
       });
       const tasks = tasksRes.data.tasks;
       res.status(200).json({ message: "tasks retrieved", tasks });
+    } catch (error) {
+      console.error((error as Error).message);
+      res.status(500).json({ message: "server error" });
+    }
+  }
+
+  private getSchedule = async (req: Request, res: Response) => {
+    try {
+      const schedulesRes = await schedule.get('/task/schedule', {
+        params: { roomId: req.user.roomId }
+      });
+      const schedules = schedulesRes.data.schedules;
+      res.status(200).json({ message: "schedule retrieved", schedules });
     } catch (error) {
       console.error((error as Error).message);
       res.status(500).json({ message: "server error" });
