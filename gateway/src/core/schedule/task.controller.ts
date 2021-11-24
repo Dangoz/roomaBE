@@ -64,7 +64,7 @@ class TaskController implements IController {
     try {
       const taskTemplateRes = await schedule.post('/task/complete', req.body);
       const taskTemplate = await taskTemplateRes.data.task;
-      res.status(200).json({ message: "task completed", taskTemplate });
+      res.status(200).json({ message: "task completed & user points updated", taskTemplate });
     } catch (error) {
       console.error((error as Error).message);
       res.status(500).json({ message: "server error" });
