@@ -14,6 +14,7 @@ class TaskController implements IController {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/list`, this.getTasks);
+    this.router.get(`${this.path}/schedule`, this.getSchedule);
     this.router.post(`${this.path}/create`, this.createTask);
     this.router.post(`${this.path}/complete`, this.completeTask);
     this.router.delete(`${this.path}/delete/:tid`, this.deleteTask);
@@ -24,6 +25,14 @@ class TaskController implements IController {
     const tasks = await TaskGenerator.generate(roomId as string, startAt as string, endAt as string);
     tasks
       ? res.status(200).json({ tasks })
+      : res.status(500).json({ message: "tasks generation unsuccessful" });
+  }
+
+  private getSchedule = async (req: Request, res: Response) => {
+    const { roomId } = req.query;
+    const schedules = await this.taskService.getSchedules(roomId as string);
+    schedules
+      ? res.status(200).json({ schedules })
       : res.status(500).json({ message: "tasks generation unsuccessful" });
   }
 

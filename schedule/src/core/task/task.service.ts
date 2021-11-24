@@ -1,11 +1,34 @@
 import Taskdb from "@/model/task.model";
-import { ICompleteTask, ICreateTask } from "@/interfaces/task.interface";
+import { ICompleteTask, ICreateTask, ISchedule } from "@/interfaces/task.interface";
 import { Task, Prisma } from "@prisma/client";
 import { convertDays } from "./taskUtil";
 import { parseTask } from "./taskGenerator";
 import dayjs, { Dayjs } from "dayjs";
+import { week } from "./taskUtil";
 
 class TaskService {
+  async getSchedules(roomId: string): Promise<ISchedule[]> {
+    try {
+      const tasks = await Taskdb.getTaskByRoomId(roomId);
+
+      // parse tasks into ISchedule[]
+      const schedules: ISchedule[] = tasks.map(t => {
+        const { id, title, points, roomId } = t;
+        const assignedUsers = t.assignedUsers.map(au => au.userId);
+        const days = t.days.map(d => week[d]);
+        const startAt = t.startAt.toISOString();
+        return {
+          id, title, points, roomId, startAt,
+          assignedUsers, days
+        }
+      });
+      return schedules;
+    } catch (error) {
+      console.error((error as Error).message);
+      return null;
+    }
+  }
+
   async createTask(data: ICreateTask): Promise<Task> {
     try {
       const days = convertDays(data.days as string[]);

@@ -12,3 +12,13 @@ export interface ICompleteTask {
   date: string;
   userId: string;
 }
+
+export interface ISchedule {
+  id: string;
+  title: string;
+  points: number;
+  days: string[];
+  startAt: string;
+  roomId: string;
+  assignedUsers: string[];
+}
