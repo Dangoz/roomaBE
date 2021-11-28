@@ -27,12 +27,12 @@ export default {
   },
 
   update: async (id: string, data: IUserUpdate): Promise<User> => {
-    const { name, age, phone, pronouns, preference, interests, pfp, color, occupation } = data;
+    const { name, age, phone, pronouns, preference, interests, pfp, color, occupation, school } = data;
     const user = await prisma.user.update({
       where: { id },
       data: {
         name, age, phone, pronouns, occupation, preference,
-        interests, pfp, color
+        interests, pfp, color, school
       }
     })
     return user;

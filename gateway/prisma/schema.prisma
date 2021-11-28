@@ -19,6 +19,7 @@ model User {
   phone          String?
   pronouns       String?
   occupation     String?
+  school         String?
   preference     String[]
   interests      String?
   pfp            String?

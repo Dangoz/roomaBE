@@ -37,8 +37,8 @@ class UserController implements IController {
     try {
       const users = await Userdb.getUsersByRoomId(req.user.roomId);
       const roommates = await Promise.all(users.map(async u => {
-        const { age, phone, pronouns, preference, interests, occupation } = u;
-        const user: IUserProfile = { ...(await UserViewModel.build(u)), age, phone, pronouns, preference, interests, occupation };
+        const { age, phone, pronouns, preference, interests, occupation, school } = u;
+        const user: IUserProfile = { ...(await UserViewModel.build(u)), age, phone, pronouns, preference, interests, occupation, school };
         return user;
       }));
       res.status(200).json({ message: "roommates retrieved", roommates });

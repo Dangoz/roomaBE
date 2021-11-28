@@ -26,6 +26,7 @@ export interface IUserUpdate {
   phone?: string;
   pronouns?: string;
   occupation?: string;
+  school?: string;
   preference?: string[];
   interests?: string;
   pfp?: string;
@@ -34,10 +35,11 @@ export interface IUserUpdate {
 
 // structure for user profile data, on top of that of IUser
 export interface IUserProfile extends IUser {
-  age: string | null;
-  phone: string | null;
-  pronouns: string | null;
-  occupation: string;
+  age?: string;
+  phone?: string;
+  pronouns?: string;
+  occupation?: string;
+  school?: string;
   preference: string[];
-  interests: string | null;
+  interests?: string;
 }
